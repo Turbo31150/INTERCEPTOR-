@@ -1,0 +1,79 @@
+# SYMBIOSE AI Interceptor - Configuration Example
+# Copy to config.yaml and customize
+
+interceptor:
+  port: 8080
+  ssl: true
+  cert_path: ./certs/server.crt
+  key_path: ./certs/server.key
+
+# AI Providers to intercept
+providers:
+  openai:
+    enabled: true
+    endpoints:
+      - api.openai.com
+      - chat.openai.com
+  anthropic:
+    enabled: true
+    endpoints:
+      - api.anthropic.com
+  google:
+    enabled: true
+    endpoints:
+      - generativelanguage.googleapis.com
+  cohere:
+    enabled: true
+    endpoints:
+      - api.cohere.ai
+  huggingface:
+    enabled: false
+    endpoints:
+      - api-inference.huggingface.co
+
+# Output destinations
+destinations:
+  console:
+    enabled: true
+    format: pretty  # pretty | json | compact
+  file:
+    enabled: true
+    path: /var/log/symbiose/
+    rotation: daily
+    max_files: 30
+  webhook:
+    enabled: false
+    url: https://your-webhook.com/intercept
+    secret: your-webhook-secret
+  telegram:
+    enabled: false
+    bot_token: "YOUR_BOT_TOKEN"
+    chat_id: "YOUR_CHAT_ID"
+    alert_threshold: 1000  # ms latency
+
+# Dashboard configuration
+dashboard:
+  port: 3000
+  auth:
+    enabled: true
+    username: admin
+    password_hash: ""  # bcrypt hash
+  ssl: false
+
+# Analytics & metrics
+analytics:
+  enabled: true
+  retention_days: 90
+  cost_estimation:
+    openai:
+      gpt-4: 0.03
+      gpt-3.5-turbo: 0.002
+    anthropic:
+      claude-3-opus: 0.015
+      claude-3-sonnet: 0.003
+
+# Alerting rules
+alerts:
+  latency_threshold_ms: 5000
+  error_rate_threshold: 0.05
+  cost_daily_limit: 100  # USD
